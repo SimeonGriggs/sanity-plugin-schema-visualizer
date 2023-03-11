@@ -1,11 +1,15 @@
 {
   "name": "sanity-plugin-schema-visualizer",
   "version": "1.0.0",
-  "description": "Visualise the schema registered to your Sanity Studio",
+  "description": "Visualize the schema registered to your Sanity Studio",
   "keywords": [
     "sanity",
     "sanity-plugin"
   ],
+  "homepage": "https://github.com/SimeonGriggs/sanity-plugin-schema-visualizer#readme",
+  "bugs": {
+    "url": "https://github.com/SimeonGriggs/sanity-plugin-schema-visualizer/issues"
+  },
   "license": "MIT",
   "author": "Simeon Griggs <simeon@hey.com>",
   "exports": {
