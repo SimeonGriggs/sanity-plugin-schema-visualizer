@@ -1,13 +1,14 @@
 import React from 'react'
 import {CardTone, Stack, Flex, Card, Text, Code} from '@sanity/ui'
-import {ObjectSchemaType, SchemaType, useSchema} from 'sanity'
+import {ObjectSchemaType, SchemaType} from 'sanity'
 
 import Arrows from './Arrows'
-import {isTypeAlias} from '../../lib/isTypeAlias'
 
 type FieldProps = SchemaType & {
+  key: string
   depth: number
   path: string[]
+  // eslint-disable-next-line react/require-default-props
   isFirst?: boolean
 }
 
@@ -39,7 +40,6 @@ export default function Field(props: FieldProps) {
 
   const newPath = [...path, name]
   const [cardTone, setCardTone] = React.useState<CardTone>(`default`)
-  const schema = useSchema()
 
   // Hide undefined type (should never happen?)
   if (!type) {
@@ -72,17 +72,10 @@ export default function Field(props: FieldProps) {
       ) : null}
       {!isPortableText && !isReference && innerFields && innerFields.length > 0 ? (
         <Stack paddingLeft={2}>
-          {innerFields.map((field) => {
-            if (isTypeAlias(field.name)) {
-              const actual = schema.get(field.name)
-
-              if (actual?.type) {
-                return <Field key={actual.name} {...field} depth={depth + 1} path={newPath} />
-              }
-            }
-
-            return <Field key={field.name} {...field} depth={depth + 1} path={newPath} />
-          })}
+          {innerFields.map((field) => (
+            // @ts-expect-error
+            <Field key={field.name} {...field} depth={depth + 1} path={newPath} />
+          ))}
         </Stack>
       ) : null}
     </>

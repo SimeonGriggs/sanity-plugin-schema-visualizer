@@ -1,6 +1,6 @@
 import React from 'react'
 import {Button, Box, Stack, Flex, Card, Text} from '@sanity/ui'
-import {SchemaType, SchemaTypeDefinition, Tool, useSchema} from 'sanity'
+import {SchemaTypeDefinition, Tool, useSchema} from 'sanity'
 import {useXarrow} from 'react-xarrows'
 import {motion} from 'framer-motion'
 
@@ -107,6 +107,7 @@ export default function SchemaVisualizer(props: SchemaVisualizerProps) {
                         schemaTypeFields.fields?.length > 0 ? (
                           <Stack>
                             {schemaTypeFields.fields.map((field, fieldIndex) => (
+                              // @ts-expect-error
                               <Field
                                 key={field.name}
                                 {...field}
