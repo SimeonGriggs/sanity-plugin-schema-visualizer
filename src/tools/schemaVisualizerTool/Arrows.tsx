@@ -17,9 +17,10 @@ export default function Arrows(props: ArrowsProps) {
         ? types.map((type) => ({
             start: path.join('.'),
             end: `document-${type}`,
-            endAnchor: 'top',
-            color: hues.green[300].hex,
+            endAnchor: 'auto',
+            color: hues.blue[300].hex,
             animateDrawing: true,
+            strokeWidth: 2,
           }))
         : [],
     [path, types]
@@ -32,7 +33,7 @@ export default function Arrows(props: ArrowsProps) {
   return (
     <Portal>
       {arrows.map((arrow) => (
-        <Xarrow key={arrow.start + `-` + arrow.end} {...arrow} />
+        <Xarrow key={`${arrow.start}-${arrow.end}`} {...arrow} />
       ))}
     </Portal>
   )

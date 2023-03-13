@@ -83,14 +83,15 @@ export default function SchemaVisualizer(props: SchemaVisualizerProps) {
                     onDragEnd={updateXarrow}
                     dragMomentum={false}
                   >
-                    <Card
-                      id={`document-${schemaType.name}`}
-                      radius={4}
-                      shadow={2}
-                      style={{minWidth: 300, overflow: `hidden`}}
-                    >
+                    <Card radius={4} shadow={2} style={{minWidth: 300, overflow: `hidden`}}>
                       <Stack>
-                        <Card padding={3} paddingY={4} borderBottom tone="primary">
+                        <Card
+                          id={`document-${schemaType.name}`}
+                          padding={3}
+                          paddingY={4}
+                          borderBottom
+                          tone="primary"
+                        >
                           <Flex>
                             <Box flex={1}>
                               <Text weight="semibold">{schemaType.title}</Text>
