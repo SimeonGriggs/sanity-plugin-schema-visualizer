@@ -8,7 +8,9 @@ There are known issues:
 
 - [ ] Full schema is not displayed, and some inner fields are not retrieved
 - [ ] On the initial load, the "card" for each document schema is shown in a horizontal bar, not grouped, but can be dragged into position
-- [ ] The arrows aren't great
+- [ ] The arrows aren't great :/
+
+![Screenshot 2023-03-13 at 11 33 39](https://user-images.githubusercontent.com/9684022/224690516-d68d1a85-5129-40df-8855-117c663de5a2.png)
 
 ## Installation
 
