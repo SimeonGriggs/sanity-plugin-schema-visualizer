@@ -9,11 +9,13 @@ type FieldProps = SchemaType & {
   depth: number
   path: string[]
   // eslint-disable-next-line react/require-default-props
+  isSmall?: boolean
+  // eslint-disable-next-line react/require-default-props
   isFirst?: boolean
 }
 
 export default function Field(props: FieldProps) {
-  const {name, type, depth, path, isFirst = false} = props
+  const {name, type, depth, path, isFirst = false, isSmall = false} = props
   const {jsonType, title} = props?.type ?? {}
   let innerFields
 
@@ -58,14 +60,13 @@ export default function Field(props: FieldProps) {
           id={newPath.join(`.`)}
           borderTop={!isFirst}
           tone={cardTone}
-          paddingX={3}
-          paddingY={3}
+          padding={isSmall ? 2 : 3}
           onMouseEnter={() => setCardTone('positive')}
           onMouseLeave={() => setCardTone('default')}
         >
           <Flex justify="space-between" gap={3} align="flex-end">
-            <Text size={2}>{title || name}</Text>
-            <Code size={1}>{isPortableText ? `portableText` : type.name}</Code>
+            <Text size={isSmall ? 1 : 2}>{title || name}</Text>
+            <Code size={isSmall ? 0 : 1}>{isPortableText ? `portableText` : type.name}</Code>
             {referenceTypes.length > 0 ? <Arrows types={referenceTypes} path={newPath} /> : null}
           </Flex>
         </Card>
@@ -74,7 +75,7 @@ export default function Field(props: FieldProps) {
         <Stack paddingLeft={2}>
           {innerFields.map((field) => (
             // @ts-expect-error
-            <Field key={field.name} {...field} depth={depth + 1} path={newPath} />
+            <Field key={field.name} {...field} depth={depth + 1} path={newPath} isSmall={isSmall} />
           ))}
         </Stack>
       ) : null}
