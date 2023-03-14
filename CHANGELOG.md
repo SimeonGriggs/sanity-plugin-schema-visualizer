@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/SimeonGriggs/sanity-plugin-schema-visualizer/compare/v1.1.0...v1.1.1) (2023-03-14)
+
+### Bug Fixes
+
+- reference logic ([0cfd6ae](https://github.com/SimeonGriggs/sanity-plugin-schema-visualizer/commit/0cfd6ae10eccacfe2ec69e53f09aa46f48459e85))
+
 ## [1.1.0](https://github.com/SimeonGriggs/sanity-plugin-schema-visualizer/compare/v1.0.0...v1.1.0) (2023-03-14)
 
 ### Features
