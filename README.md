@@ -1,6 +1,6 @@
 # Sanity Plugin Schema Visualizer
 
-A custom Tool to visually represent schema registered in a Sanity Studio. 
+A basic Studio Tool to visually represent schema registered in a Sanity Studio. 
 
 Not intended to be feature complete or as a schema builder/editor. 
 
@@ -10,7 +10,7 @@ There are known issues:
 - [ ] On the initial load, the "card" for each document schema is shown in a horizontal bar, not grouped, but can be dragged into position
 - [ ] The arrows aren't great :/
 
-![Screenshot 2023-03-13 at 11 33 39](https://user-images.githubusercontent.com/9684022/224690516-d68d1a85-5129-40df-8855-117c663de5a2.png)
+![Screenshot 2023-03-14 at 09 08 29](https://user-images.githubusercontent.com/9684022/224951338-ffd187d3-515b-4344-a18c-9487fe6c7a5d.png)
 
 ## Installation
 
