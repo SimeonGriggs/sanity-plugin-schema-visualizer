@@ -1,5 +1,6 @@
 import React from 'react'
 import {Button, Box, Stack, Flex, Card, Text} from '@sanity/ui'
+import {SearchIcon} from '@sanity/icons'
 import {SchemaTypeDefinition, Tool, useSchema} from 'sanity'
 import {useXarrow} from 'react-xarrows'
 import {motion} from 'framer-motion'
@@ -26,6 +27,7 @@ export default function SchemaVisualizer(props: SchemaVisualizerProps) {
   )
   const updateXarrow = useXarrow()
   const documentTypeNames = documentTypes.map((type) => type.name)
+  const [small, setSmall] = React.useState(false)
 
   const [filters, setFilters] = React.useState<string[]>(
     defaultSchemaTypes.length ? defaultSchemaTypes : documentTypeNames
@@ -43,8 +45,10 @@ export default function SchemaVisualizer(props: SchemaVisualizerProps) {
   return (
     <Card tone="transparent" height="fill">
       <Flex flex={1} height="fill" justify="center" align="center" style={{overflow: 'scroll'}}>
-        <div style={{position: `fixed`, pointerEvents: `none`, bottom: 0, zIndex: 10}}>
-          <Flex gap={2} padding={4} style={{pointerEvents: `auto`}}>
+        <div
+          style={{position: `fixed`, pointerEvents: `none`, bottom: 0, zIndex: 10, width: `100%`}}
+        >
+          <Flex gap={2} align="flex-start" padding={4} style={{pointerEvents: `auto`}}>
             {documentTypes.map((type) => (
               <Button
                 fontSize={1}
@@ -57,6 +61,16 @@ export default function SchemaVisualizer(props: SchemaVisualizerProps) {
                 disabled={filters.length === 1 && filters.includes(type.name)}
               />
             ))}
+            <Box style={{marginLeft: `auto`, background: 'red'}}>
+              <Button
+                fontSize={1}
+                icon={SearchIcon}
+                tone="default"
+                mode="bleed"
+                text={small ? `Larger` : `Smaller`}
+                onClick={() => setSmall((current) => !current)}
+              />
+            </Box>
           </Flex>
         </div>
         {documentTypes?.length > 0 ? (
@@ -87,16 +101,18 @@ export default function SchemaVisualizer(props: SchemaVisualizerProps) {
                       <Stack>
                         <Card
                           id={`document-${schemaType.name}`}
-                          padding={3}
-                          paddingY={4}
+                          padding={small ? 2 : 3}
+                          paddingY={small ? 3 : 4}
                           borderBottom
                           tone="primary"
                         >
                           <Flex>
                             <Box flex={1}>
-                              <Text weight="semibold">{schemaType.title}</Text>
+                              <Text size={small ? 1 : 2} weight="semibold">
+                                {schemaType.title}
+                              </Text>
                             </Box>
-                            <Text size={2}>
+                            <Text size={small ? 1 : 2}>
                               {/* @TODO: Resolve Type for schema icons */}
                               {/* @ts-expect-error */}
                               {schemaType?.icon ? React.createElement(schemaType.icon) : null}
@@ -114,6 +130,7 @@ export default function SchemaVisualizer(props: SchemaVisualizerProps) {
                                 depth={0}
                                 isFirst={fieldIndex === 0}
                                 path={[field.name]}
+                                isSmall={small}
                               />
                             ))}
                           </Stack>

@@ -18,9 +18,15 @@ export default function Arrows(props: ArrowsProps) {
             start: path.join('.'),
             end: `document-${type}`,
             endAnchor: 'auto',
-            color: hues.blue[300].hex,
+            color: hues.blue[500].hex,
             animateDrawing: true,
-            strokeWidth: 2,
+            strokeWidth: 1,
+            path: 'grid',
+            dashness: {
+              strokeLen: 6,
+              nonStrokeLen: 2,
+              animation: false,
+            },
           }))
         : [],
     [path, types]
