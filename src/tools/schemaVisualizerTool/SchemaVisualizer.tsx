@@ -1,6 +1,6 @@
 import React from 'react'
 import {Button, Box, Stack, Flex, Card, Text} from '@sanity/ui'
-import {SearchIcon} from '@sanity/icons'
+import {SearchIcon, EyeClosedIcon, EyeOpenIcon} from '@sanity/icons'
 import {SchemaTypeDefinition, Tool, useSchema} from 'sanity'
 import {useXarrow} from 'react-xarrows'
 import {motion} from 'framer-motion'
@@ -28,6 +28,7 @@ export default function SchemaVisualizer(props: SchemaVisualizerProps) {
   const updateXarrow = useXarrow()
   const documentTypeNames = documentTypes.map((type) => type.name)
   const [small, setSmall] = React.useState(false)
+  const [showName, setShowName] = React.useState(true)
 
   const [filters, setFilters] = React.useState<string[]>(
     defaultSchemaTypes.length ? defaultSchemaTypes : documentTypeNames
@@ -61,15 +62,25 @@ export default function SchemaVisualizer(props: SchemaVisualizerProps) {
                 disabled={filters.length === 1 && filters.includes(type.name)}
               />
             ))}
-            <Box style={{marginLeft: `auto`, background: 'red'}}>
-              <Button
-                fontSize={1}
-                icon={SearchIcon}
-                tone="default"
-                mode="bleed"
-                text={small ? `Larger` : `Smaller`}
-                onClick={() => setSmall((current) => !current)}
-              />
+            <Box style={{marginLeft: `auto`}}>
+              <Flex gap={2} align="flex-end">
+                <Button
+                  fontSize={1}
+                  icon={SearchIcon}
+                  tone="default"
+                  mode="bleed"
+                  text={small ? `Larger` : `Smaller`}
+                  onClick={() => setSmall((current) => !current)}
+                />
+                <Button
+                  fontSize={1}
+                  icon={showName ? EyeOpenIcon : EyeClosedIcon}
+                  tone="default"
+                  mode="bleed"
+                  text={showName ? `Hide Names` : `Show Names`}
+                  onClick={() => setShowName((current) => !current)}
+                />
+              </Flex>
             </Box>
           </Flex>
         </div>
@@ -131,6 +142,7 @@ export default function SchemaVisualizer(props: SchemaVisualizerProps) {
                                 isFirst={fieldIndex === 0}
                                 path={[field.name]}
                                 isSmall={small}
+                                showName={showName}
                               />
                             ))}
                           </Stack>

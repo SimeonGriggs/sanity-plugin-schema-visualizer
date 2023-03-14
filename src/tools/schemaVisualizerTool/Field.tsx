@@ -12,17 +12,24 @@ type FieldProps = SchemaType & {
   isSmall?: boolean
   // eslint-disable-next-line react/require-default-props
   isFirst?: boolean
+  // eslint-disable-next-line react/require-default-props
+  showName?: boolean
 }
 
+// eslint-disable-next-line complexity
 export default function Field(props: FieldProps) {
-  const {name, type, depth, path, isFirst = false, isSmall = false} = props
-  const {jsonType, title} = props?.type ?? {}
+  const {type, depth, path, isFirst = false, isSmall = false, showName = true} = props
+  const {jsonType} = props?.type ?? {}
+  const name = props?.name ?? props?.type?.name
+  const title = props?.title ?? props?.type?.title
   let innerFields
 
   if (type && jsonType === 'array' && 'of' in type) {
-    innerFields = type?.of
+    innerFields = type.of
+  } else if (type && jsonType === 'object' && 'to' in type) {
+    innerFields = type.to
   } else if (type && jsonType === 'object' && 'fields' in type) {
-    innerFields = type?.fields
+    innerFields = type.fields
   }
 
   let isPortableText = false
@@ -30,12 +37,12 @@ export default function Field(props: FieldProps) {
     isPortableText = type?.of?.some((item) => item.name === 'block')
   }
 
-  const isReference = type && type.name === `reference`
   let referenceTypes: string[] = []
-  if (type && type.name === `reference` && 'to' in type) {
-    // I don't know why this .to is unknown
+  if (type && type.name === `reference` && ('to' in type || 'to' in props)) {
+    // Sometimes the `to` is stored in the props, sometimes in the type?
     // @ts-expect-error
-    referenceTypes = type.to
+    const to = props?.to ?? type.to
+    referenceTypes = to
       .map((referenceTo: ObjectSchemaType) => referenceTo.name)
       .filter((typeName: string) => typeName && !typeName?.startsWith(`sanity.`))
   }
@@ -47,6 +54,9 @@ export default function Field(props: FieldProps) {
   if (!type) {
     return null
   }
+
+  const isReference = type.name === `reference`
+  const isSlug = type.name === `slug`
 
   // Hide system fields and their children
   if (type.name.startsWith(`sanity.`)) {
@@ -66,16 +76,25 @@ export default function Field(props: FieldProps) {
         >
           <Flex justify="space-between" gap={3} align="flex-end">
             <Text size={isSmall ? 1 : 2}>{title || name}</Text>
-            <Code size={isSmall ? 0 : 1}>{isPortableText ? `portableText` : type.name}</Code>
+            {showName ? (
+              <Code size={isSmall ? 0 : 1}>{isPortableText ? `portableText` : type.name}</Code>
+            ) : null}
             {referenceTypes.length > 0 ? <Arrows types={referenceTypes} path={newPath} /> : null}
           </Flex>
         </Card>
       ) : null}
-      {!isPortableText && !isReference && innerFields && innerFields.length > 0 ? (
+      {!isPortableText && !isReference && !isSlug && innerFields && innerFields.length > 0 ? (
         <Stack paddingLeft={2}>
           {innerFields.map((field) => (
             // @ts-expect-error
-            <Field key={field.name} {...field} depth={depth + 1} path={newPath} isSmall={isSmall} />
+            <Field
+              key={field.name}
+              {...field}
+              depth={depth + 1}
+              path={newPath}
+              isSmall={isSmall}
+              showName={showName}
+            />
           ))}
         </Stack>
       ) : null}
