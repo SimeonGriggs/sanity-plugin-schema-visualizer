@@ -1,6 +1,7 @@
 import React from 'react'
-import {CardTone, Stack, Flex, Card, Text, Code} from '@sanity/ui'
+import {CardTone, Stack, Flex, Card, Text, Code, Button} from '@sanity/ui'
 import {ObjectSchemaType, SchemaType} from 'sanity'
+import {LinkIcon} from '@sanity/icons'
 
 import Arrows from './Arrows'
 
@@ -59,7 +60,7 @@ export default function Field(props: FieldProps) {
   const isSlug = type.name === `slug`
 
   // Hide system fields and their children
-  if (type.name.startsWith(`sanity.`)) {
+  if (type.name?.startsWith(`sanity.`)) {
     return null
   }
 
@@ -74,11 +75,12 @@ export default function Field(props: FieldProps) {
           onMouseEnter={() => setCardTone('positive')}
           onMouseLeave={() => setCardTone('default')}
         >
-          <Flex justify="space-between" gap={3} align="flex-end">
+          <Flex justify="space-between" gap={3} align={type.name === 'crossDatasetReference' ? "center" : "flex-end"}>
             <Text size={isSmall ? 1 : 2}>{title || name}</Text>
             {showName ? (
               <Code size={isSmall ? 0 : 1}>{isPortableText ? `portableText` : type.name}</Code>
             ) : null}
+            {type.name === 'crossDatasetReference' && <a style={{cursor: `pointer`}} href={`/${type.dataset}/visualizer`}><Button fontSize={[1]} icon={LinkIcon} padding={[2]} /></a>}
             {referenceTypes.length > 0 ? <Arrows types={referenceTypes} path={newPath} /> : null}
           </Flex>
         </Card>
